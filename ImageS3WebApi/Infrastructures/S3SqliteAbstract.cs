@@ -2,6 +2,7 @@
 using Amazon.S3;
 using Amazon.S3.Model;
 using ImageS3WebApi.Interfaces;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,18 +16,45 @@ namespace ImageS3WebApi.Infrastructures
     {
         private IAmazonS3 GetObjectFromS3Bucket(string bucketName, string referenceId, ref GetObjectRequest downloadRequest)
         {
-            string accessKey = "your_accessKey";
-            string secretKey = "your_secretKey";
-            string regionEndpoint = "your_vm_region";
+            const string regionEndpoint = "your_vm_region";
+            const string setName = "yourapp.secret";
             bool useHttp = false;
             IAmazonS3 s3Client;
             AmazonS3Config s3Config;
 
-            if (string.IsNullOrEmpty(referenceId))
+            AWSS3AppSettingsContext dbContext = null;
+            string secretSettings = string.Empty;
+
+            try
+            {
+                dbContext = new AWSS3AppSettingsContext();
+                secretSettings = dbContext.Settings
+                    .Where(s => s.setName.Equals(setName))
+                    .Select(s => s.setSettings)
+                    .FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                ;
+            }
+            finally
+            {
+                if (dbContext != null)
+                {
+                    dbContext.Dispose();
+                }
+            }
+
+
+            if (string.IsNullOrEmpty(referenceId) || string.IsNullOrEmpty(secretSettings))
             {
                 return null;
             }
 
+            JObject jo = JObject.Parse(secretSettings);
+
+            string accessKey = (string)jo["YourAccessKey"];
+            string secretKey = (string)jo["YourSecretKey"];
 
             try
             {
