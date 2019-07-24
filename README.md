@@ -2,7 +2,7 @@
 
 ## Project Requirements
 
-This is an ASP.NET Web API project focusing on the AWS Cloud S3 APIs, nevertheless the core classes implementing IS3SQliteLib can be applied to any other kinds of C# projects: Console, Windows Forms, Web Forms, WPF, ASP.NET MVC, Microservices, or even used by any other libraries working as an infrastructure component after the modest modification.
+This is an ASP.NET Web API project focusing on the AWS Cloud S3 APIs, nevertheless the core classes implementing IS3SqliteLib can be applied to any other kinds of C# projects: Console, Windows Forms, Web Forms, WPF, ASP.NET MVC, Microservices, or even used by any other libraries working as an infrastructure component after the modest modification.
 
 In the large cloud deployment related projects, considering efficiency and cost, the structural layered architecture is often an optimal solution.
 
