@@ -94,13 +94,13 @@ namespace ImageS3WebApi.Services
                 if (string.Equals(myreader, entryId))
                 {
                     content = sqlite_datareader.GetString(1);
-                    conn.Close();
                     var details = JObject.Parse(content);
                     contentReference = (string)details["Images"][0]["ContentReference"];
                     break;
                 }
             }
 
+            conn.Close();
             return contentReference;
         }
     }
